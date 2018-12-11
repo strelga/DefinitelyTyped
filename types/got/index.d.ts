@@ -17,47 +17,47 @@ import { CookieJar } from 'tough-cookie';
 
 export = got;
 
-declare class RequestError extends StdError {
+declare class RequestError extends GotError {
     name: 'RequestError';
 }
 
-declare class ReadError extends StdError {
+declare class ReadError extends GotError {
     name: 'ReadError';
 }
 
-declare class ParseError extends StdError {
+declare class ParseError extends GotError {
     name: 'ParseError';
     statusCode: number;
     statusMessage: string;
 }
 
-declare class HTTPError extends StdError {
+declare class HTTPError extends GotError {
     name: 'HTTPError';
     statusCode: number;
     statusMessage: string;
     headers: http.IncomingHttpHeaders;
 }
 
-declare class MaxRedirectsError extends StdError {
+declare class MaxRedirectsError extends GotError {
     name: 'MaxRedirectsError';
     statusCode: number;
     statusMessage: string;
     redirectUrls: string[];
 }
 
-declare class UnsupportedProtocolError extends StdError {
+declare class UnsupportedProtocolError extends GotError {
     name: 'UnsupportedProtocolError';
 }
 
-declare class CancelError extends StdError {
+declare class CancelError extends GotError {
     name: 'CancelError';
 }
 
-declare class TimeoutError extends StdError {
+declare class TimeoutError extends GotError {
     name: 'TimeoutError';
 }
 
-declare class StdError extends Error {
+declare class GotError extends Error {
     code?: string;
     host?: string;
     hostname?: string;
@@ -80,6 +80,7 @@ declare const got: got.GotFn &
         UnsupportedProtocolError: typeof UnsupportedProtocolError;
         CancelError: typeof CancelError;
         TimeoutError: typeof TimeoutError;
+        GotError: typeof GotError;
     };
 
 interface InternalRequestOptions extends https.RequestOptions {
@@ -219,8 +220,6 @@ declare namespace got {
         removeListener(event: 'downloadProgress', listener: (progress: Progress) => void): this;
         removeListener(event: 'uploadProgress', listener: (progress: Progress) => void): this;
     }
-
-    type GotError = RequestError | ReadError | ParseError | HTTPError | MaxRedirectsError | UnsupportedProtocolError | CancelError | TimeoutError;
 
     interface Progress {
         percent: number;
